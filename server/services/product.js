@@ -43,9 +43,14 @@ async function changeProduct(id, data) {
   return product;
 }
 
+async function removeProduct(id) {
+  await Product.findByIdAndDelete(id);
+}
+
 module.exports = {
   getProducts,
   getProduct,
   addProduct,
   changeProduct,
+  removeProduct,
 };

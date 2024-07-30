@@ -4,6 +4,7 @@ const {
   getProduct,
   addProduct,
   changeProduct,
+  removeProduct,
 } = require("../services/product");
 
 async function showProducts(req, res) {
@@ -72,9 +73,22 @@ async function editProduct(req, res) {
   }
 }
 
+async function delProduct(req, res) {
+  const id = req.params.id;
+
+  try {
+    await removeProduct(id);
+    res.status(200).json({ msg: "Product was successfully deleted." });
+  } catch (error) {
+    console.error(error);
+    res.status(204).json(error);
+  }
+}
+
 router.get("/", showProducts);
 router.get("/:id", showProduct);
 router.post("/create", createProduct);
 router.put("/edit/:id", editProduct);
+router.delete("/del/:id", delProduct);
 
 module.exports = router;

@@ -23,7 +23,23 @@ async function addProduct(data) {
   });
 
   await product.save();
+  return product;
+}
 
+async function changeProduct(id, data) {
+  const product = await Product.findById(id);
+  if (!product) throw new Error({ msg: "Product doesn't exist." });
+
+  product.name = data.name;
+  product.brand = data.brand;
+  product.model = data.model;
+  product.category = data.category;
+  product.price = data.price;
+  product.stock = data.stock;
+  product.description = data.description;
+  product.compatibility = data.compatibility;
+
+  await product.save();
   return product;
 }
 
@@ -31,4 +47,5 @@ module.exports = {
   getProducts,
   getProduct,
   addProduct,
+  changeProduct,
 };

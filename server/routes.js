@@ -1,7 +1,7 @@
 const router = require("express").Router();
 
-router.get("/", (req, res) => {
-  res.json("Main path");
-});
+const productController = require("./controllers/product");
+
+router.use("/catalog", productController);
 
 module.exports = router;

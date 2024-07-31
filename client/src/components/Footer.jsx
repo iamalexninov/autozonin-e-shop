@@ -1,13 +1,13 @@
 export const Footer = () => {
   return (
-    <footer className="bg-sky-950 p-14 flex justify-between">
-      <div>
+    <footer className="bg-blue-950 p-20 flex justify-between items-center">
+      <div className="">
         <p className="font-semibold text-2xl text-white">Join AutoZonin</p>
         <p className="font-semibold text-base text-white">Explore Our Online Shop.</p>
       </div>
-      <div>
-        <input type="text" placeholder="Your email address" />
-        <button className="uppercase text-white p-4 rounded-full">join</button>
+      <div className="w-full max-w-xl relative">
+        <input type="text" placeholder="Your email address" className=" p-7 w-full rounded-3xl"/>
+        <button className="uppercase text-white rounded-3xl absolute bg-blue-700 p-6 top-1 right-1 w-full max-w-28">join</button>
       </div>
     </footer>
   );

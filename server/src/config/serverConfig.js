@@ -1,13 +1,14 @@
-const dotenv = require("dotenv");
+require('dotenv').config();
+
 const express = require("express");
 const cors = require("cors");
+const { DBConnection } = require("./databaseConfig");
 const routes = require("../routes/routes");
 
 module.exports = () => {
   const app = express();
 
-  dotenv.config();
-  // todo: db connection
+  DBConnection(app);
 
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));

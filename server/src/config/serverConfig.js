@@ -1,6 +1,7 @@
 const dotenv = require("dotenv");
 const express = require("express");
 const cors = require("cors");
+const routes = require("../routes/routes");
 
 module.exports = () => {
   const app = express();
@@ -12,7 +13,7 @@ module.exports = () => {
   app.use(express.urlencoded({ extended: true }));
   app.use(cors());
 
-  // todo: routes
+  app.use("/api", routes);
 
   app.listen(process.env.PORT, () => console.log("Server On."));
 };

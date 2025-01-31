@@ -11,7 +11,16 @@ async function fetchAllProducts() {
     });
 }
 
-function fetchProductByCatalogNumber(id) {}
+function fetchProductByCatalogNumber(id) {
+  return ProductModel.findById({ _id: id })
+    .then((product) => {
+      return product;
+    })
+    .catch((error) => {
+      console.error("Error fetching product:", error);
+      throw error;
+    });
+}
 
 function insertProduct(dataObject) {}
 

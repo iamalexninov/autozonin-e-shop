@@ -7,20 +7,35 @@ function loadProducts(req, res) {
     .then((products) => {
       res.status(200).json({ success: true, data: products });
     })
-    .catch((error) => {
-      console.error("Error fetching products: ", error);
-      res
-        .status(500)
-        .json({
-          success: false,
-          message: "Failed to fetch products",
-          error: error.message,
-        });
+    .catch((err) => {
+      console.error("Error fetching products: ", err);
+      
+      res.status(500).json({
+        success: false,
+        message: "Failed to fetch products",
+        error: err.message,
+      });
     });
 }
 
 function loadProductByCatalogNumber(req, res) {
-  // TODO: Choose a Product by catalog number
+  const { id } = req.params;
+  
+  // Test: BD123
+  return productsService
+    .fetchProductByCatalogNumber(id)
+    .then((product) => {
+      res.status(200).json({ success: true, data: product });
+    })
+    .catch((err) => {
+      console.error("Error fetching products: ", err);
+      
+      res.status(500).json({
+        success: false,
+        message: "Failed to fetch products",
+        error: err.message,
+      });
+    });
 }
 
 function buildProduct(req, res) {

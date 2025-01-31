@@ -1,14 +1,29 @@
 const router = require("express").Router();
+const productsService = require("../services/productsService");
 
-function getProducts(req, res) {
-  // TODO: Select all Products of the DB
+function loadProducts(req, res) {
+  return productsService
+    .fetchAllProducts()
+    .then((products) => {
+      res.status(200).json({ success: true, data: products });
+    })
+    .catch((error) => {
+      console.error("Error fetching products: ", error);
+      res
+        .status(500)
+        .json({
+          success: false,
+          message: "Failed to fetch products",
+          error: error.message,
+        });
+    });
 }
 
-function getProductByCatalogNumber(req, res) {
+function loadProductByCatalogNumber(req, res) {
   // TODO: Choose a Product by catalog number
 }
 
-function createProduct(req, res) {
+function buildProduct(req, res) {
   // TODO: Create a Product
 }
 
@@ -20,9 +35,9 @@ function markProductAsDeleted(req, res) {
   // TODO: Soft Delete of a Product
 }
 
-router.get("/", getProducts);
-router.get("/:id", getProductByCatalogNumber);
-router.post("/", createProduct);
+router.get("/", loadProducts);
+router.get("/:id", loadProductByCatalogNumber);
+router.post("/", buildProduct);
 router.put("/:id", updateProductByCatalogNumber);
 router.put("/:id", markProductAsDeleted);
 

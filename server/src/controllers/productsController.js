@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const ProductModel = require("../models/ProductModel");
 const productsService = require("../services/productsService");
 
 function loadProducts(req, res) {
@@ -9,7 +10,7 @@ function loadProducts(req, res) {
     })
     .catch((err) => {
       console.error("Error fetching products: ", err);
-      
+
       res.status(500).json({
         success: false,
         message: "Failed to fetch products",
@@ -20,7 +21,7 @@ function loadProducts(req, res) {
 
 function loadProductByCatalogNumber(req, res) {
   const { id } = req.params;
-  
+
   // Test: BD123
   return productsService
     .fetchProductByCatalogNumber(id)
@@ -29,7 +30,7 @@ function loadProductByCatalogNumber(req, res) {
     })
     .catch((err) => {
       console.error("Error fetching products: ", err);
-      
+
       res.status(500).json({
         success: false,
         message: "Failed to fetch products",
@@ -39,7 +40,20 @@ function loadProductByCatalogNumber(req, res) {
 }
 
 function buildProduct(req, res) {
-  // TODO: Create a Product
+  return productsService
+    .insertProduct(req.body)
+    .then((product) => {
+      res.status(200).json({ success: true, data: product });
+    })
+    .catch((err) => {
+      console.error("Error creating product:", err);
+
+      res.status(500).json({
+        success: false,
+        message: "Failed to create product",
+        error: err.message,
+      });
+    });
 }
 
 function updateProductByCatalogNumber(req, res) {

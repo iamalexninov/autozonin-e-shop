@@ -19,6 +19,9 @@ function fetchProductByCatalogNumber(id) {
 }
 
 function insertProduct(dataObject) {
+
+    // TODO: refac
+
   return manipulateProduct("create", dataObject)
     .then((product) => product)
     .catch((error) => {
@@ -27,13 +30,25 @@ function insertProduct(dataObject) {
     });
 }
 
-function updateProductByCatalogNumber(dataObject) {
-  return manipulateProduct("update", dataObject)
-    .then((product) => product)
-    .catch((error) => {
-      console.error("Product Error:", error);
-      throw error;
-    });
+async function updateProductByCatalogNumber(data) {
+  //
+  const product = ProductModel.findById({ _id: data._id });
+  if (!product)
+    throw new Error("Product doesn't exist. Please create it.");
+
+  product._id = data._id
+  product.description = data.description,
+  product.price = data.price,
+  product.category = data.category,
+  product.brand = data.brand,
+  product.vehicleCompability = data.vehicleCompability,
+  product.stockQuantity = data.stockQuantity,
+  product.images = data.images,
+  product.isDeleted = data.isDeleted || false,
+  product.updatedAt = data.updatedAt
+
+  await product.save();
+  return product;
 }
 
 function markProductAsDeletedByCatalogNumber(dataObject) {
@@ -69,20 +84,22 @@ async function manipulateProduct(operation, data) {
         await product.save();
         break;
 
+      // TODO: Check
       case "update":
         const updateData = {
+          _id: data._id,
           description: data.description,
           price: data.price,
           category: data.category,
           brand: data.brand,
-          vehicleCompatibility: data.vehicleCompatibility,
+          vehicleCompability: data.vehicleCompability,
           stockQuantity: data.stockQuantity,
           images: data.images,
-          isDeleted: data.isDeleted,
+          isDeleted: data.isDeleted || false,
           updatedAt: new Date(),
         };
 
-        product = await ProductModel.findByIdAndUpdate(data._id, updateData);
+        product = await ProductModel.findOneAndUpdate(updateData);
         await product.save();
         break;
 

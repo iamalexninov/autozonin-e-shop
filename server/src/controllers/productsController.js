@@ -57,7 +57,20 @@ function buildProduct(req, res) {
 }
 
 function updateProductByCatalogNumber(req, res) {
-  // TODO: Update a Product
+  return productsService
+    .updateProductByCatalogNumber(req.body)
+    .then((product) => {
+      res.status(200).json({ success: true, data: product });
+    })
+    .catch((err) => {
+      console.error("Error updating product:", err);
+
+      res.status(500).json({
+        success: false,
+        message: "Failed to create product",
+        error: err.message,
+      });
+    });
 }
 
 function markProductAsDeleted(req, res) {
